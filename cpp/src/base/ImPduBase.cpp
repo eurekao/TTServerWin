@@ -11,9 +11,8 @@
 #include "ImPduGroup.h"
 #include "ImPduFile.h"
 
-#ifndef WIN32
 #include "ImPduServer.h"
-#endif
+
 
 CImPdu::CImPdu()
 {
@@ -404,7 +403,6 @@ CImPdu* CImPdu::ReadPduOther(uint16_t command_id, uchar_t* pdu_buf, uint32_t pdu
 		pPdu = new CImPduClientServiceSetting(pdu_buf, pdu_len);
 		break;
             
-#ifndef WIN32
 	// business server
     case IM_PDU_TYPE_SERVER_KICK_USER:
         pPdu = new CImPduServerKickUser(pdu_buf, pdu_len);
@@ -542,7 +540,7 @@ CImPdu* CImPdu::ReadPduOther(uint16_t command_id, uchar_t* pdu_buf, uint32_t pdu
     case IM_PDU_TYPE_FILE_SERVER_IP_RESPONSE:
         pPdu = new CImPduFileServerIPRsp(pdu_buf, pdu_len);
         break;
-#endif
+
 
 	default:
 		throw CPduException(SID_OTHER, command_id, ERROR_CODE_WRONG_COMMAND_ID, "wrong packet type");

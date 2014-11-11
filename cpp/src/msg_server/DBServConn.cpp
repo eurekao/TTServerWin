@@ -1,4 +1,4 @@
-/*
+﻿/*
  * DBServConn.cpp
  *
  *  Created on: 2013-7-8
@@ -12,7 +12,11 @@
 #include "FileHandler.h"
 #include "ImUser.h"
 #include "AttachData.h"
+#ifdef WIN32
+#include <objbase.h>
+#else
 #include <uuid/uuid.h>
+#endif
 static ConnMap_t g_db_server_conn_map;
 
 static serv_info_t* g_db_server_list = NULL;
@@ -63,15 +67,33 @@ void init_db_serv_conn(serv_info_t* server_list, uint32_t server_count, uint32_t
 
 string create_uuid()
 {
-    uuid_t uu;
-#ifdef __APPLE__
-    uuid_string_t uuid;
+
+#ifdef WIN32
+	char buffer[33] = { 0 };
+	GUID guid;
+	if (CoCreateGuid(&guid) == S_OK)
+	{
+		_snprintf_s(buffer, sizeof(buffer),
+			"%08X%04X%04x%02X%02X%02X%02X%02X%02X%02X%02X",
+			guid.Data1,
+			guid.Data2,
+			guid.Data3,
+			guid.Data4[0], guid.Data4[1],
+			guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5],
+			guid.Data4[6], guid.Data4[7]);
+	}
+	return string(buffer);
 #else
-    char uuid[37];    
+	uuid_t uu;
+#ifdef __APPLE__
+	uuid_string_t uuid;
+#else
+	char uuid[37];    
 #endif
     uuid_generate( uu );
     uuid_unparse(uu, uuid);
     return string(uuid);
+#endif
 }
 
 

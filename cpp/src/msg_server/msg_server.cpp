@@ -1,4 +1,4 @@
-/*
+﻿/*
  * msg_server.cpp
  *
  *  Created on: 2013-6-21
@@ -13,7 +13,7 @@
 #include "DBServConn.h"
 #include "HttpConn.h"
 #include "FileServConn.h"
-#include "version.h"
+//#include "version.h"
 
 #define DEFAULT_CONCURRENT_DB_CONN_CNT  10
 
@@ -49,15 +49,16 @@ void http_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pPar
 int main(int argc, char* argv[])
 {
 	if ((argc == 2) && (strcmp(argv[1], "-v") == 0)) {
-		printf("Server Version: MsgServer/%s\n", VERSION);
+	//	printf("Server Version: MsgServer/%s\n", VERSION);
 		printf("Server Build: %s %s\n", __DATE__, __TIME__);
 		return 0;
 	}
-
+#ifndef WIN32
 	signal(SIGPIPE, SIG_IGN);
 	srand(time(NULL));
+#endif
 
-	log("MsgServer max files can open: %d\n", getdtablesize());
+	//log("MsgServer max files can open: %d\n", getdtablesize());
 
 	CConfigFileReader config_file("msgserver.conf");
 

@@ -191,8 +191,8 @@ void CBaseSocket::OnWrite()
 	if (m_state == SOCKET_STATE_CONNECTING)
 	{
 		int error = 0;
-		unsigned int len = sizeof(error);
-		getsockopt(m_socket, SOL_SOCKET, SO_ERROR, (void*)&error, &len);
+		int len = sizeof(error);
+		getsockopt(m_socket, SOL_SOCKET, SO_ERROR,(char*)&error, &len);
 		if (error) {
 			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 		} else {
@@ -214,27 +214,27 @@ void CBaseSocket::OnClose()
 
 void CBaseSocket::SetSendBufSize(uint32_t send_size)
 {
-	int ret = setsockopt(m_socket, SOL_SOCKET, SO_SNDBUF, &send_size, 4);
+	int ret = setsockopt(m_socket, SOL_SOCKET, SO_SNDBUF, (char*)&send_size, 4);
 	if (ret == SOCKET_ERROR) {
 		log("set SO_SNDBUF failed for fd=%d\n", m_socket);
 	}
 
 	socklen_t len = 4;
 	int size = 0;
-	getsockopt(m_socket, SOL_SOCKET, SO_SNDBUF, &size, &len);
+	getsockopt(m_socket, SOL_SOCKET, SO_SNDBUF, (char*)&size, &len);
 	log("socket=%d send_buf_size=%d\n", m_socket, size);
 }
 
 void CBaseSocket::SetRecvBufSize(uint32_t recv_size)
 {
-	int ret = setsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, &recv_size, 4);
+	int ret = setsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, (char*)&recv_size, 4);
 	if (ret == SOCKET_ERROR) {
 		log("set SO_RCVBUF failed for fd=%d\n", m_socket);
 	}
 
 	socklen_t len = 4;
 	int size = 0;
-	getsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, &size, &len);
+	getsockopt(m_socket, SOL_SOCKET, SO_RCVBUF, (char*)&size, &len);
 	log("socket=%d recv_buf_size=%d\n", m_socket, size);
 }
 

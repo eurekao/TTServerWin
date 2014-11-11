@@ -645,7 +645,6 @@ CImPduClientGroupChangeMemberNotify::~CImPduClientGroupChangeMemberNotify()
 }
 
 // for server use
-#ifndef WIN32
 CImPduGroupListRequest::CImPduGroupListRequest(uint16_t cmd_id, uint32_t user_id, uint32_t attach_len, uchar_t* attach_data)
 {
 	m_pdu_header.command_id = cmd_id;
@@ -1053,4 +1052,3 @@ CImPduGroupChangeMemberNotify::~CImPduGroupChangeMemberNotify()
     }
 }
 
-#endif

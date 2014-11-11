@@ -1,4 +1,4 @@
-/*
+﻿/*
  * UtilPdu.h
  *
  *  Created on: 2013-8-27
@@ -15,7 +15,8 @@
 #include <string>
 using namespace std;
 
-#ifdef WIN32
+//Modify by Eureka for vs2013
+#ifndef WIN32
 	#ifdef BUILD_PDU
 		#define DLL_MODIFIER __declspec(dllexport)
 	#else

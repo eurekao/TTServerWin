@@ -1,4 +1,4 @@
-/*
+﻿/*
  * RouteServConn.cpp
  *
  *  Created on: 2013-7-8
@@ -18,9 +18,9 @@ static ConnMap_t g_route_server_conn_map;
 
 static serv_info_t* g_route_server_list;
 static uint32_t g_route_server_count;
-static CRouteServConn* g_master_rs_conn = NULL;
-static CFileHandler* s_file_handler = NULL;
-static CGroupChat* s_group_chat = NULL;
+static CRouteServConn* g_master_rs_conn;
+static CFileHandler* s_file_handler;
+static CGroupChat* s_group_chat;
 
 void route_server_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {

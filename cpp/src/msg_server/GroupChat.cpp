@@ -11,6 +11,9 @@
 #include "RouteServConn.h"
 #include "AttachData.h"
 #include "ImUser.h"
+#ifdef WIN32
+#include <time.h>
+#endif
 CGroupChat* CGroupChat::s_group_chat_instance = NULL;
 
 CGroupChat* CGroupChat::GetInstance()

@@ -428,7 +428,7 @@ private:
 };
 
 // interactive packet with business server
-#ifndef WIN32
+
 class CImPduGroupListRequest : public CImPdu
 {
 public:
@@ -704,6 +704,5 @@ private:
     uint32_t*   m_user_list;
 };
 
-#endif // WIN32
 
 #endif /* IMPDUGROUP_H_ */

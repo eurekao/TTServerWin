@@ -623,7 +623,7 @@ private:
 /// yunfan add end
 
 ////// for server pdu ////
-#ifndef WIN32
+
 class CImPduFileNotify : public CImPdu
 {
 public:
@@ -711,6 +711,5 @@ public:
 
 
 
-#endif	// WIN32
 
 #endif /* IMPDUFILE_H_ */

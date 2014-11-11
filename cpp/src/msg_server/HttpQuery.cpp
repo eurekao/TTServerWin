@@ -11,6 +11,9 @@
 #include "LoginServConn.h"
 #include "ImUser.h"
 #include "GroupChat.h"
+#ifdef WIN32
+#include <time.h>
+#endif
 static uint32_t g_total_query = 0;
 static uint32_t g_last_year = 0;
 static uint32_t g_last_month = 0;

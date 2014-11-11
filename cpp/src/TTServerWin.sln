@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "login_server", "login_server\login_server.vcxproj", "{B890E578-A902-40DC-A6B3-852384E3EB6D}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "base", "base\base.vcxproj", "{225075E2-F274-48D5-A49F-8736E195FBFA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "route_server", "route_server\route_server.vcxproj", "{3D888A04-4075-4DEC-9F06-351277D5EC20}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msg_server", "msg_server\msg_server.vcxproj", "{7987B321-9576-40AA-A1EF-9737F1161E58}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B890E578-A902-40DC-A6B3-852384E3EB6D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B890E578-A902-40DC-A6B3-852384E3EB6D}.Debug|Win32.Build.0 = Debug|Win32
+		{B890E578-A902-40DC-A6B3-852384E3EB6D}.Release|Win32.ActiveCfg = Release|Win32
+		{B890E578-A902-40DC-A6B3-852384E3EB6D}.Release|Win32.Build.0 = Release|Win32
+		{225075E2-F274-48D5-A49F-8736E195FBFA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{225075E2-F274-48D5-A49F-8736E195FBFA}.Debug|Win32.Build.0 = Debug|Win32
+		{225075E2-F274-48D5-A49F-8736E195FBFA}.Release|Win32.ActiveCfg = Release|Win32
+		{225075E2-F274-48D5-A49F-8736E195FBFA}.Release|Win32.Build.0 = Release|Win32
+		{3D888A04-4075-4DEC-9F06-351277D5EC20}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3D888A04-4075-4DEC-9F06-351277D5EC20}.Debug|Win32.Build.0 = Debug|Win32
+		{3D888A04-4075-4DEC-9F06-351277D5EC20}.Release|Win32.ActiveCfg = Release|Win32
+		{3D888A04-4075-4DEC-9F06-351277D5EC20}.Release|Win32.Build.0 = Release|Win32
+		{7987B321-9576-40AA-A1EF-9737F1161E58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7987B321-9576-40AA-A1EF-9737F1161E58}.Debug|Win32.Build.0 = Debug|Win32
+		{7987B321-9576-40AA-A1EF-9737F1161E58}.Release|Win32.ActiveCfg = Release|Win32
+		{7987B321-9576-40AA-A1EF-9737F1161E58}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

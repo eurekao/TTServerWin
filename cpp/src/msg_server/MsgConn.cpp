@@ -1,4 +1,4 @@
-/*
+﻿/*
  * MsgConn.cpp
  *
  *  Created on: 2013-7-5
@@ -13,6 +13,10 @@
 #include "GroupChat.h"
 #include "ImUser.h"
 #include "AttachData.h"
+#ifdef WIN32
+#include <signal.h>
+#include <time.h>
+#endif
 
 
 #define TIMEOUT_WATI_LOGIN_RESPONSE		15000	// 15 seconds
@@ -54,6 +58,7 @@ void msg_conn_timer_callback(void* callback_data, uint8_t msg, uint32_t handle, 
 	}
 }
 
+#ifndef WIN32
 static void signal_handler_usr1(int sig_no)
 {
 	if (sig_no == SIGUSR1) {
@@ -88,13 +93,16 @@ static void signal_handler_hup(int sig_no)
 		exit(0);
 	}
 }
+#endif
 
 void init_msg_conn()
 {
 	g_last_stat_tick = g_last_sensitive_word_tick = get_tick_count();
+#ifndef WIN32
 	signal(SIGUSR1, signal_handler_usr1);
 	signal(SIGUSR2, signal_handler_usr2);
 	signal(SIGHUP, signal_handler_hup);
+#endif
 	netlib_register_timer(msg_conn_timer_callback, NULL, 1000);
 	s_file_handler = CFileHandler::getInstance();
 	s_group_chat = CGroupChat::GetInstance();

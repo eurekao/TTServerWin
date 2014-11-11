@@ -8,7 +8,8 @@
 #include "RouteConn.h"
 #include "netlib.h"
 #include "ConfigFileReader.h"
-#include "version.h"
+#include "time.h"
+//#include "version.h"
 
 // this callback will be replaced by imconn_callback() in OnConnect()
 void route_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
@@ -27,13 +28,15 @@ void route_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void
 int main(int argc, char* argv[])
 {
 	if ((argc == 2) && (strcmp(argv[1], "-v") == 0)) {
-		printf("Server Version: RouteServer/%s\n", VERSION);
+	// 	printf("Server Version: RouteServer/%s\n", VERSION);
 		printf("Server Build: %s %s\n", __DATE__, __TIME__);
 		return 0;
 	}
 
+#ifndef WIN32
 	signal(SIGPIPE, SIG_IGN);
 	srand(time(NULL));
+#endif
 
 	CConfigFileReader config_file("routeserver.conf");
 

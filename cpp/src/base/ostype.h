@@ -1,4 +1,4 @@
-// OS dependant type definition
+﻿// OS dependant type definition
 #ifndef __OS_TYPE_H__
 #define __OS_TYPE_H__
 

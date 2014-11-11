@@ -1,4 +1,4 @@
-/*
+﻿/*
  * ImPduBase.h
  *
  *  Created on: 2013-8-27
@@ -135,15 +135,16 @@ CID_FILE_GET_OFFLINE_REQ                = 6,
 #define MSG_TYPE_P2P_FLAG       0x00
 #define MSG_TYPE_GROUP_FLAG     0x10
 
-#define CHECK_MSG_TYPE_GROUP(msg_type) \
-    ({\
-        bool bRet = false;\
-        if ((msg_type & MSG_TYPE_GROUP_FLAG) == MSG_TYPE_GROUP_FLAG)\
-        {\
-            bRet = true;\
-        }\
-        bRet;\
-    })
+#define CHECK_MSG_TYPE_GROUP(msg_type) ((msg_type & MSG_TYPE_GROUP_FLAG) == MSG_TYPE_GROUP_FLAG)
+//#define CHECK_MSG_TYPE_GROUP(msg_type) \
+//    ({\
+//        bool bRet = false;\
+//        if ((msg_type & MSG_TYPE_GROUP_FLAG) == MSG_TYPE_GROUP_FLAG)\
+//        {\
+//            bRet = true;\
+//        }\
+//        bRet;\
+//    })
 
 enum {
 	MSG_TYPE_P2P_TEXT       = MSG_TYPE_P2P_FLAG + 0x01,
@@ -165,25 +166,27 @@ enum {
     CLIENT_TYPE_ANDROID     = 0x12,
 };
 
-#define CHECK_CLIENT_TYPE_PC(type) \
-    ({\
-        bool bRet = false;\
-        if ((type & 0x10) == 0x00)\
-        {\
-            bRet = true;\
-        }\
-        bRet;\
-    })
+#define CHECK_CLIENT_TYPE_PC(type) ((type & 0x10) == 0x00)
+//#define CHECK_CLIENT_TYPE_PC(type) \
+//    ({\
+//        bool bRet = false;\
+//        if ((type & 0x10) == 0x00)\
+//        {\
+//            bRet = true;\
+//        }\
+//        bRet;\
+//    })
 
-#define CHECK_CLIENT_TYPE_MOBILE(type) \
-    ({\
-        bool bRet = false;\
-        if ((type & 0x10) == 0x10)\
-        {\
-            bRet = true;\
-        }\
-        bRet;\
-    })
+#define CHECK_CLIENT_TYPE_MOBILE(type) ((type & 0x10) == 0x10)
+//#define CHECK_CLIENT_TYPE_MOBILE(type) \
+//    ({\
+//        bool bRet = false;\
+//        if ((type & 0x10) == 0x10)\
+//        {\
+//            bRet = true;\
+//        }\
+//        bRet;\
+//    })
 
 
 
@@ -200,7 +203,8 @@ enum {
 		throw CPduException(m_pdu_header.module_id, m_pdu_header.command_id, ERROR_CODE_ALLOC_FAILED, "allocate failed"); \
 	}
 
-#ifdef WIN32
+//Modify by Eureka for vs2013
+#ifndef WIN32
 	#ifdef BUILD_PDU
 	#define DLL_MODIFIER __declspec(dllexport)
 	#else
