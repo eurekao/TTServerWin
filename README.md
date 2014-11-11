@@ -1,9 +1,5 @@
-### 公告
-近期有很多热衷开源的geek们在问最新代码的更新日期，我们在此说明一下，由于近期工程师们都在备战双十一，开源的投入会相对减少，所以我们把提交最新代码的时间定在2014年11月18日，非常感谢大家对TeamTalk的关注和支持~具体安排如下：
-* 11.11之前工程师全力备战双十一，请见谅
-* 11.12～11.14 C++ Server, Java DB Proxy, PHP, android, iOS, Win Client代码移植, MAC Client延后（功能还未完全）
-* 11.15～11.17 测试TeamTalk，包括PHP，android, iOS, Win Client 端功能走通，测试一键部署脚本
-* 11.18  上传代码并正式发布
+修改工程能在Windows环境下编译运行，当前能正常编译的包括LoginServer,RouteServer和MsgServer。
+
 
 ###简介：
 
@@ -27,10 +23,6 @@ TTServer主要包含了以下几种服务器:
 - 多点登录
 - 组织架构设置.
 
-
-###系统结构图
-
-![](https://github.com/mogutt/TTServer/blob/master/docs/pics/server.png)
 
 
 ###后续可考虑的功能
