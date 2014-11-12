@@ -7,6 +7,11 @@
 
 #include "FileConn.h"
 #include <sys/stat.h>
+#ifdef WIN32
+#include <time.h>
+#include <direct.h>
+#define mkdir(path,mode) _mkdir(path)
+#endif
 
 static ConnMap_t g_file_conn_map; // connection with others, on connect insert...
 static UserMap_t g_file_user_map; // after user login, insert...
@@ -175,7 +180,11 @@ void* _DoUpload(void* lparam)
         	log("timeout, exit thread, task %s\n", t->task_id.c_str());
         	return NULL;
         }
+#ifndef WIN32
         sleep(1);
+#else
+		Sleep(1);
+#endif
     }
     
 
@@ -230,9 +239,29 @@ void* _DoUpload(void* lparam)
 
 int generate_id(char* id)
 {
-    if (NULL == id) {
-        return  -1; // invalid param
-    }
+	if (NULL == id) {
+		return  -1; // invalid param
+	}
+#ifdef WIN32
+	char buffer[33] = { 0 };
+	GUID guid;
+	if (CoCreateGuid(&guid) == S_OK)
+	{
+		_snprintf_s(buffer, sizeof(buffer), 
+			"%08X%04X%04x%02X%02X%02X%02X%02X%02X%02X%02X",
+			guid.Data1,
+			guid.Data2,
+			guid.Data3,
+			guid.Data4[0], guid.Data4[1],
+			guid.Data4[2], guid.Data4[3], guid.Data4[4], guid.Data4[5],
+			guid.Data4[6], guid.Data4[7]);
+		memcpy(id, buffer, sizeof(buffer));
+	}
+	else{
+		id = NULL;
+		return -2; // uuid generate failed
+	}
+#else
     
     uuid_t uid = {0};
     uuid_generate(uid);
@@ -240,7 +269,8 @@ int generate_id(char* id)
         id = NULL;
         return -2; // uuid generate failed
     }
-    uuid_unparse(uid, id);
+	uuid_unparse(uid, id);
+#endif
     
     return 0;
 }

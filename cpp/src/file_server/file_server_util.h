@@ -13,8 +13,13 @@
 #ifndef __FILE_SERVER_UTIL_H__
 #define __FILE_SERVER_TUIL_H__
 
-#include <pthread.h>
+#ifdef WIN32
+#include <objbase.h>
+#include "pthread.h"
+#else
 #include <uuid/uuid.h>
+#include <pthread.h>
+#endif
 
 #include <imconn.h>
 
@@ -135,7 +140,7 @@ typedef struct transfer_task_t{
         transfered_size = 0;
         file_head = NULL;
         self_destroy = false;
-        worker = (pthread_t)0;
+        //worker = (pthread_t)0;
     }
 
     ~transfer_task_t() {
@@ -178,9 +183,9 @@ typedef struct transfer_task_t{
             file_head = NULL;
         }
 
-        if (worker) {
+       // if (worker) {
 //          pthread_exit(&worker);
-        }
+       // }
     }
 
     uint32_t GetOpponent(uint32_t user_id) {

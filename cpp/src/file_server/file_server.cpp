@@ -8,7 +8,7 @@
 #include "FileConn.h"
 #include "netlib.h"
 #include "ConfigFileReader.h"
-#include "version.h"
+//#include "version.h"
 
 void file_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void* pParam)
 {
@@ -22,21 +22,24 @@ void file_serv_callback(void* callback_data, uint8_t msg, uint32_t handle, void*
 
 int main(int argc, char* argv[])
 {
+#ifndef WIN32
     pid_t pid = fork();
     if (pid < 0) {
         exit(-1);
     } else if (pid > 0) {
         exit(0);
     }
-    setsid();
+	setsid();
+#endif
 
 	if ((argc == 2) && (strcmp(argv[1], "-v") == 0)) {
-		printf("Server Version: FileServer/%s\n", VERSION);
+//		printf("Server Version: FileServer/%s\n", VERSION);
 		printf("Server Build: %s %s\n", __DATE__, __TIME__);
 		return 0;
 	}
-
+#ifndef WIN32
 	signal(SIGPIPE, SIG_IGN);
+#endif
 
 	CConfigFileReader config_file("fileserver.conf");
 

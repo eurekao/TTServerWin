@@ -11,6 +11,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "route_server", "route_serve
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "msg_server", "msg_server\msg_server.vcxproj", "{7987B321-9576-40AA-A1EF-9737F1161E58}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "file_server", "file_server\file_server.vcxproj", "{C60D21C4-19BC-4CCF-8FFB-91CFA362530B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -33,6 +35,10 @@ Global
 		{7987B321-9576-40AA-A1EF-9737F1161E58}.Debug|Win32.Build.0 = Debug|Win32
 		{7987B321-9576-40AA-A1EF-9737F1161E58}.Release|Win32.ActiveCfg = Release|Win32
 		{7987B321-9576-40AA-A1EF-9737F1161E58}.Release|Win32.Build.0 = Release|Win32
+		{C60D21C4-19BC-4CCF-8FFB-91CFA362530B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C60D21C4-19BC-4CCF-8FFB-91CFA362530B}.Debug|Win32.Build.0 = Debug|Win32
+		{C60D21C4-19BC-4CCF-8FFB-91CFA362530B}.Release|Win32.ActiveCfg = Release|Win32
+		{C60D21C4-19BC-4CCF-8FFB-91CFA362530B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

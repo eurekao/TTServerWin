@@ -11,7 +11,11 @@
 #include "imconn.h"
 #include "impdu.h"
 #include <deque>
+#ifndef WIN32
 #include <pthread.h>
+#else
+#include "pthread.h"
+#endif
 #include <deque>
 #include "file_server_util.h"
 
