@@ -11,13 +11,18 @@
 #include <stdio.h>
 #include <string.h>
 #include <sys/types.h>
-#include <dirent.h>
 #include <sys/stat.h>
 #include <string>
 #include <errno.h>
 #include <time.h>
-#include "FileLin.h"
 #include "CriticalSection.h"
+#include "FileLin.h"
+
+#ifdef WIN32
+
+#else
+#include <dirent.h>
+#endif
 
 using namespace std;
 
@@ -112,8 +117,8 @@ private:
 	
 	int 			m_filesPerDir;	//mas file nums per dir eg. xxx/xxx
     static const u32 MAX_FILE_SIZE_PER_FILE = 5 * 1024 * 1024; 
-	static const int FIRST_DIR_MAX =255;
-	static const int SECOND_DIR_MAX =255;
+	static const int FIRST_DIR_MAX =10;
+	static const int SECOND_DIR_MAX =10;
 	static FileManager * m_instance;
 	EntryMap m_map;
 	static const u64 MAX_FILE_IN_MAP = 10000;

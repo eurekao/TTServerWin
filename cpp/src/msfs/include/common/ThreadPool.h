@@ -8,7 +8,14 @@
 #ifndef THREADPOOL_H_
 #define THREADPOOL_H_
 
+
+#ifdef WIN32
+#include "pthread.h"
+#include <time.h>
+#define random rand
+#else
 #include <pthread.h>
+#endif
 #include <list>
 #include "ostype.h"
 using namespace std;

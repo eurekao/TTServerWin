@@ -7,15 +7,49 @@
 #include <stdio.h>
 #include <string>
 #include <iostream>
-#include <sys/mount.h>
-#include <sys/time.h>
-#include <pthread.h>
-#include <time.h>
 #include "FileManager.h"
-#include "FileLin.h"
 #include "StringUtils.h"
 #include "util.h"
 #include "Base64.h"
+#include "FileLin.h"
+#ifdef WIN32
+#include <time.h>
+#include "pthread.h"
+
+int gettimeofday(struct timeval *tp, void *tzp)
+{
+	time_t clock;
+	struct tm tm;
+	SYSTEMTIME wtm;
+	GetLocalTime(&wtm);
+	tm.tm_year = wtm.wYear - 1900;
+	tm.tm_mon = wtm.wMonth - 1;
+	tm.tm_mday = wtm.wDay;
+	tm.tm_hour = wtm.wHour;
+	tm.tm_min = wtm.wMinute;
+	tm.tm_sec = wtm.wSecond;
+	tm.tm_isdst = -1;
+	clock = mktime(&tm);
+	tp->tv_sec = clock;
+	tp->tv_usec = wtm.wMilliseconds * 1000;
+	return (0);
+}
+
+
+LPCWSTR stringToLPCWSTR(std::string orig)
+{
+	size_t origsize = orig.length() + 1;
+	const size_t newsize = 100;
+	size_t convertedChars = 0;
+	wchar_t *wcstring = (wchar_t *)malloc(sizeof(wchar_t)*(orig.length() - 1));
+	mbstowcs_s(&convertedChars, wcstring, origsize, orig.c_str(), _TRUNCATE);
+	return wcstring;
+}
+#else
+#include <sys/mount.h>
+#include <sys/time.h>
+#include <pthread.h>
+#endif
 
 using namespace std;
 
@@ -70,7 +104,11 @@ string FileManager::createFileRelatePath() {
 	struct timeval tv;
 	gettimeofday(&tv,NULL);
 	u64 usec = tv.tv_sec*1000000 + tv.tv_usec;
+#ifndef WIN32
 	u64 tid = (u64)pthread_self();
+#else
+	u64 tid = GetCurrentThreadId();
+#endif
 	char unique[40];
 	snprintf(unique, 30, "%llu_%llu", usec, tid);
 	string path = "/" + string(first) + "/" + string(second) 
@@ -107,11 +145,19 @@ int FileManager::uploadFile(const char *type, const void* content, u32 size,
 	
 	//open and write file then close
 	string absPath = string(m_disk) + path;
+#ifndef WIN32
 	File * tmpFile = new File(absPath.c_str());
 	tmpFile->create();
 	tmpFile->write(0, size, content);
 	delete tmpFile;
 	tmpFile = NULL;
+#else
+	FILE *fp;
+	if ((fp = fopen(absPath.c_str(), "wb")) == NULL);
+	fwrite(content, size, 1, fp);
+	fclose(fp);
+
+#endif
 
 	//increase total file sum
 	m_filesCs.Enter();
@@ -141,7 +187,6 @@ int FileManager::getAbsPathByUrl(const string &url, string &path) {
 	return 0;
 }
 
-
 FileManager::Entry* 
 FileManager::getOrCreateEntry(const std::string& url, bool create) {
 	m_cs.Enter();
@@ -164,6 +209,7 @@ FileManager::getOrCreateEntry(const std::string& url, bool create) {
 	}
 
 	Entry *e = new Entry();
+#ifndef WIN32
 	u64 fileSize = File::getFileSize(path.c_str());
 	e->m_fileSize = fileSize;
 	e->m_fileContent = new byte[fileSize];
@@ -183,7 +229,24 @@ FileManager::getOrCreateEntry(const std::string& url, bool create) {
 	}
 	delete tmpFile;
 	tmpFile = NULL;
-	
+#else
+	HANDLE pfile;
+	pfile = ::CreateFile(stringToLPCWSTR(path), GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL | FILE_FLAG_DELETE_ON_CLOSE, NULL);
+	u64 filesize = GetFileSize(pfile, NULL);
+	e->m_fileSize = filesize;
+	e->m_fileContent = new byte[filesize];
+	memset(e->m_fileContent, 0x0, filesize);
+	e->m_lastAccess = time(NULL);
+	DWORD read;
+	BOOL res = ReadFile(pfile, e->m_fileContent, filesize, &read, NULL);
+	if (!res || read < 0) {
+		CloseHandle(pfile);
+		delete e;
+		e = NULL;
+		m_cs.Leave();
+		return NULL;
+	}
+#endif	
 	std::pair < map <std::string, Entry*>::iterator, bool> result;
 	result = m_map.insert(EntryMap::value_type(url, e));
 	if (result.second == false) {

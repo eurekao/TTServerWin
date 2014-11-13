@@ -8,12 +8,13 @@
 #include <string>
 using namespace std;
 
-#ifdef WIN32
-#ifdef BUILD_PDU
-#define DLL_MODIFIER __declspec(dllexport)
-#else
-#define DLL_MODIFIER __declspec(dllimport)
-#endif
+//Modify by Eureka for vs2013
+#ifndef WIN32
+	#ifdef BUILD_PDU
+	#define DLL_MODIFIER __declspec(dllexport)
+	#else
+	#define DLL_MODIFIER __declspec(dllimport)
+	#endif
 #else
 #define DLL_MODIFIER
 #endif

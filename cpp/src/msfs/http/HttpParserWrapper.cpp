@@ -7,6 +7,10 @@
 //
 
 #include "HttpParserWrapper.h"
+#ifdef WIN32
+#define strcasecmp stricmp
+#define strncasecmp  strnicmp 
+#endif
 
 #define MAX_REFERER_LEN	32
 

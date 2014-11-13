@@ -3,18 +3,27 @@
  *  File Operation API implement in Linux OS
  *  @author potian@mogujie.com
 */
-#ifndef WIN32
+
 
 #include <fcntl.h>
-#include <unistd.h>
 #include <string.h>
 #include <errno.h>
 #include <assert.h>
 #include <stdio.h>
 #include <sys/stat.h>
-#include <dirent.h>
-
 #include "FileLin.h"
+#ifdef WIN32
+#include <time.h>
+#include <direct.h>
+#include "dirent.h"
+#include <io.h>
+#include <process.h>
+#define mkdir(path,mode) _mkdir(path)
+#else
+#include <dirent.h>
+#include <unistd.h>
+#endif
+
 
 namespace msfs {
 
@@ -51,6 +60,8 @@ u64 File::create(bool directIo) {
 	int flags = O_RDWR | O_CREAT | O_EXCL;
 #if defined(__FREEBSD__) || defined (__APPLE__)
 	m_file = ::open(m_path, flags, 00640);
+#elif WIN32
+	m_file=::open(m_path,flags);
 #elif defined(__LINUX__) || defined(__linux__)
 	m_file = open64(m_path, flags, 00640);
 #endif	
@@ -72,6 +83,8 @@ u64 File::open(bool directIo) {
 	int flags = O_RDWR;
 #ifdef __linux__	
 	m_file = open64(m_path, flags);
+#elif WIN32
+	m_file = ::open(m_path, flags);
 #elif defined(__FREEBSD__) || defined(__APPLE__)
 	m_file = ::open(m_path, flags);
 #endif	
@@ -83,6 +96,7 @@ u64 File::open(bool directIo) {
 		if (-1 == fcntl(m_file, F_SETFL, O_DIRECT))
 			return errno; 
 #endif	
+#ifndef WIN32
 	struct flock lock;
 	lock.l_type = F_WRLCK;
 	lock.l_start = 0;
@@ -92,6 +106,7 @@ u64 File::open(bool directIo) {
 		::close(m_file);
 		return errno;
 	}
+#endif
 
 	m_opened = true;
 	u64 size = 0;
@@ -163,6 +178,8 @@ u64 File::read(u64 offset, u32 size, void *buffer) {
 	if (size != pread64(m_file, buffer, size, offset))
 #elif defined(__FREEBSD__) || defined(__APPLE__)
 	if (size != pread(m_file, buffer, size, offset))
+#elif WIN32
+	if (size != ::read(m_file, buffer, size))
 #endif 		
 		return errno;
 	return 0;
@@ -176,7 +193,9 @@ u64 File::write(u64 offset, u32 size, const void *buffer) {
 #ifdef __linux__
 	if(size != pwrite64(m_file, buffer, size, offset))
 #elif defined(__FREEBSD__) || defined (__APPLE__)
-	if(size != pwrite(m_file, buffer, size, offset))		
+	if(size != pwrite(m_file, buffer, size, offset))	
+#elif WIN32
+	if (size != ::write(m_file, buffer, size))
 #endif
 		return errno;
 	return 0;
@@ -184,7 +203,11 @@ u64 File::write(u64 offset, u32 size, const void *buffer) {
 
 u64 File::sync() {
 	assert(m_opened);
+#ifdef WIN32
+	if(FlushFileBuffers((HANDLE)m_file)){
+#else
 	if (-1 == fsync(m_file)) {
+#endif
 		return errno;
 	}
 	return 0;
@@ -234,5 +257,4 @@ u64 File::getFileNum(int *fileNum) {
 }
 
 }
-#endif
 

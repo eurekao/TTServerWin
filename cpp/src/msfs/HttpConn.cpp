@@ -387,9 +387,9 @@ void  CHttpTask::OnDownload()
             }
             else
 			{
-            	int nTotalLen = strlen(HTTP_RESPONSE_404);
+				int nTotalLen = strlen(HTTP_RESPONSE_404);
 				char* pContent = new char[nTotalLen];
-				snprintf(pContent, nTotalLen, HTTP_RESPONSE_404);
+				_snprintf_s(pContent, nTotalLen, _TRUNCATE, HTTP_RESPONSE_404);
 				CHttpConn::AddResponsePdu(m_ConnHandle, pContent, nTotalLen);
 				log("File size is invalied\n");
 
@@ -399,7 +399,7 @@ void  CHttpTask::OnDownload()
         {
         	int nTotalLen = strlen(HTTP_RESPONSE_500);
 			char* pContent = new char[nTotalLen];
-			snprintf(pContent, nTotalLen, HTTP_RESPONSE_500);
+			_snprintf_s(pContent, nTotalLen, _TRUNCATE, HTTP_RESPONSE_500);
 			CHttpConn::AddResponsePdu(m_ConnHandle, pContent, nTotalLen);
         }
 }
@@ -508,7 +508,11 @@ void CHttpConn::OnRead()
 
     if (m_HttpParser.IsReadAll())
     {
+#ifdef WIN32
+		if (InterlockedIncrement(&accept_number)==1)
+#else
         if(ATOMIC_ADD_AND_FETCH(&accept_number, 1) == 1)
+#endif
         {
             begin_time = get_tick_count();
         }
@@ -538,9 +542,11 @@ void CHttpConn::OnRead()
             catch(...)
             {
                 log("not enough memory\n");
-                char szResponse[HTTP_RESPONSE_500_LEN + 1];
+				char *szResponse = new char[HTTP_RESPONSE_500_LEN + 1];
+                //char szResponse[HTTP_RESPONSE_500_LEN + 1];
                 snprintf(szResponse, HTTP_RESPONSE_500_LEN, "%s", HTTP_RESPONSE_500);
                 Send(szResponse, HTTP_RESPONSE_500_LEN);
+				delete[] szResponse;
                 return;
             }
         }
@@ -646,7 +652,11 @@ void CHttpConn::SendResponsePduList()
 
 void CHttpConn::OnSendComplete()
 {
-    if(ATOMIC_ADD_AND_FETCH(&finish_number, 1) == MONITOR_NUMBER)
+#ifdef WIN32
+	if (InterlockedIncrement(&finish_number) == MONITOR_NUMBER)
+#else
+	if(ATOMIC_ADD_AND_FETCH(&finish_number, 1) == MONITOR_NUMBER)
+#endif
     {
         end_time = get_tick_count();
         log("deal %d files used time:%llu\n", MONITOR_NUMBER, end_time - begin_time);

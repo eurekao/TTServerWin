@@ -3,7 +3,9 @@
 */
 #ifndef __CRITICALSECTION_H__
 #define __CRITICALSECTION_H__
-
+#ifdef WIN32
+#include "pthread.h"
+#endif
 namespace msfs {
 
 class CriticalSection {

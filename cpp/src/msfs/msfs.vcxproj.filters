@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="common">
+      <UniqueIdentifier>{3d3ed4c5-ea95-4880-bfaf-e649256ee4b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="http">
+      <UniqueIdentifier>{b049f028-c805-4cc0-a2fe-59d03384a7a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include">
+      <UniqueIdentifier>{e8052c0a-6b55-473d-83fa-11028e85f87d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="storage">
+      <UniqueIdentifier>{11d9c67e-d5e0-4bd1-9d95-44ed8da27ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\common">
+      <UniqueIdentifier>{a390f5b1-bc0b-4f91-8f49-6524541f46ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\http">
+      <UniqueIdentifier>{04e6516f-d67a-42c1-9307-75d0ea1550bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="include\storage">
+      <UniqueIdentifier>{eff0941b-8444-4890-9606-2ab3fb1faa69}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="http\HttpParser.cpp">
+      <Filter>http</Filter>
+    </ClCompile>
+    <ClCompile Include="http\HttpParserWrapper.cpp">
+      <Filter>http</Filter>
+    </ClCompile>
+    <ClCompile Include="common\Base64.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\BaseSocket.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ConfigFileReader.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\EventDispatch.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\netlib.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\util.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\jsonxx.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\SimpleBuffer.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\StringUtils.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="common\ThreadPool.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="storage\FileManager.cpp">
+      <Filter>storage</Filter>
+    </ClCompile>
+    <ClCompile Include="HttpConn.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="storage\FileLin.cpp">
+      <Filter>storage</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\http\HttpParser.h">
+      <Filter>include\http</Filter>
+    </ClInclude>
+    <ClInclude Include="include\http\HttpParserWrapper.h">
+      <Filter>include\http</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\Base64.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\BaseSocket.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ConfigFileReader.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ostype.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\EventDispatch.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\netlib.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\util.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\jsonxx.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\pthread.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\sched.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\semaphore.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\SimpleBuffer.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\StringUtils.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\atomic.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\CriticalSection.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\common\ThreadPool.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\storage\FileManager.h">
+      <Filter>include\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="include\storage\Portable.h">
+      <Filter>include\storage</Filter>
+    </ClInclude>
+    <ClInclude Include="HttpConn.h" />
+    <ClInclude Include="include\common\dirent.h">
+      <Filter>include\common</Filter>
+    </ClInclude>
+    <ClInclude Include="include\storage\FileLin.h">
+      <Filter>include\storage</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

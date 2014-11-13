@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E31915E4-FF1C-4F47-9D8E-3FFB32FF6B4E}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>msfs</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>include\common;include\http;include\storage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>include\common;include\http;include\storage;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>pthreadVC2.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="common\Base64.cpp" />
+    <ClCompile Include="common\BaseSocket.cpp" />
+    <ClCompile Include="common\ConfigFileReader.cpp" />
+    <ClCompile Include="common\EventDispatch.cpp" />
+    <ClCompile Include="common\jsonxx.cpp" />
+    <ClCompile Include="common\netlib.cpp" />
+    <ClCompile Include="common\SimpleBuffer.cpp" />
+    <ClCompile Include="common\StringUtils.cpp" />
+    <ClCompile Include="common\ThreadPool.cpp" />
+    <ClCompile Include="common\util.cpp" />
+    <ClCompile Include="HttpConn.cpp" />
+    <ClCompile Include="http\HttpParser.cpp" />
+    <ClCompile Include="http\HttpParserWrapper.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="storage\FileLin.cpp" />
+    <ClCompile Include="storage\FileManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HttpConn.h" />
+    <ClInclude Include="include\common\atomic.h" />
+    <ClInclude Include="include\common\Base64.h" />
+    <ClInclude Include="include\common\BaseSocket.h" />
+    <ClInclude Include="include\common\ConfigFileReader.h" />
+    <ClInclude Include="include\common\CriticalSection.h" />
+    <ClInclude Include="include\common\dirent.h" />
+    <ClInclude Include="include\common\EventDispatch.h" />
+    <ClInclude Include="include\common\jsonxx.h" />
+    <ClInclude Include="include\common\netlib.h" />
+    <ClInclude Include="include\common\ostype.h" />
+    <ClInclude Include="include\common\pthread.h" />
+    <ClInclude Include="include\common\sched.h" />
+    <ClInclude Include="include\common\semaphore.h" />
+    <ClInclude Include="include\common\SimpleBuffer.h" />
+    <ClInclude Include="include\common\StringUtils.h" />
+    <ClInclude Include="include\common\ThreadPool.h" />
+    <ClInclude Include="include\common\util.h" />
+    <ClInclude Include="include\http\HttpParser.h" />
+    <ClInclude Include="include\http\HttpParserWrapper.h" />
+    <ClInclude Include="include\storage\FileLin.h" />
+    <ClInclude Include="include\storage\FileManager.h" />
+    <ClInclude Include="include\storage\Portable.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

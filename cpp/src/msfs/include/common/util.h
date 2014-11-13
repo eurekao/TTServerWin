@@ -7,8 +7,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <list>
+
+#include "ostype.h"
+#include <set>
 #include <map>
+#include <list>
+#include <string>
+
 #ifdef _WIN32
 #define	snprintf	sprintf_s
 #else

@@ -190,8 +190,8 @@ void CBaseSocket::OnWrite()
 	if (m_state == SOCKET_STATE_CONNECTING)
 	{
 		int error = 0;
-		unsigned int len = sizeof(error);
-		getsockopt(m_socket, SOL_SOCKET, SO_ERROR, (void*)&error, &len);
+		int len = sizeof(error);
+		getsockopt(m_socket, SOL_SOCKET, SO_ERROR, (char*)&error, &len);
 		if (error) {
 			m_callback(m_callback_data, NETLIB_MSG_CLOSE, (net_handle_t)m_socket, NULL);
 		} else {

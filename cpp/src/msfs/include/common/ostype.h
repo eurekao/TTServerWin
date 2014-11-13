@@ -31,6 +31,10 @@
 #endif
 
 #ifdef _WIN32
+#if (_MSC_VER >= 1800)
+//vs2013+
+#include <stdint.h>
+#else
 typedef char			int8_t;
 typedef short			int16_t;
 typedef int				int32_t;
@@ -39,15 +43,14 @@ typedef unsigned char	uint8_t;
 typedef unsigned short	uint16_t;
 typedef unsigned int	uint32_t;
 typedef	unsigned long long	uint64_t;
+#endif
 typedef int				socklen_t;
 #else
-#ifdef linux
-const int TRUE = 1;
-const int FALSE = 0;
-#endif
 typedef int	SOCKET;
 typedef int BOOL;
-const int SOCKET_ERROR	= -1;
+const int TRUE = 1;
+const int FALSE = 0;
+const int SOCKET_ERROR = -1;
 const int INVALID_SOCKET = -1;
 #endif
 

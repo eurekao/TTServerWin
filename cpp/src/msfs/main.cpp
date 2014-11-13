@@ -17,6 +17,11 @@
 #include "HttpConn.h"
 #include "FileManager.h"
 #include "ThreadPool.h"
+#ifdef WIN32
+#include <time.h>
+#include <direct.h>
+#define mkdir(path,mode) _mkdir(path)
+#endif
 
 using namespace std;
 using namespace msfs;
@@ -24,10 +29,10 @@ using namespace msfs;
 
 FileManager* FileManager::m_instance = NULL;
 FileManager* g_fileManager = NULL;
-CConfigFileReader config_file("msfs.conf");
 CThreadPool g_PostThreadPool;
 CThreadPool g_GetThreadPool;
 
+#ifndef WIN32
 void closeall(int fd)
 {
     int fdlimit = sysconf(_SC_OPEN_MAX);
@@ -72,6 +77,7 @@ int daemon(int nochdir, int noclose, int asroot)
 
     return 0;
 }
+#endif
 
 // for client connect in
 void http_callback(void* callback_data, uint8_t msg, uint32_t handle,
@@ -89,6 +95,7 @@ void http_callback(void* callback_data, uint8_t msg, uint32_t handle,
     }
 }
 
+#ifndef WIN32
 void doQuitJob()
 {
 	char fileCntBuf[20] = {0};
@@ -115,8 +122,12 @@ void Stop(int signo)
         _exit(0);
     }
 }
+#endif
+
 int main(int argc, char* argv[])
 {
+
+#ifndef WIN32
     for(int i=0; i < argc; ++i)
        {
            if(strncmp(argv[i], "-d", 2) == 0)
@@ -128,9 +139,11 @@ int main(int argc, char* argv[])
                }
                break;
            }
-       }
-    log("MsgServer max files can open: %d\n", getdtablesize());
+	}
+	log("MsgServer max files can open: %d\n", getdtablesize());
+#endif
 
+	CConfigFileReader config_file("msfs.conf");
 
     char* listen_ip = config_file.GetConfigName("ListenIP");
     char* str_listen_port = config_file.GetConfigName("ListenPort");
@@ -179,10 +192,12 @@ int main(int argc, char* argv[])
             return ret;
     }
 
+#ifndef WIN32
     signal(SIGINT, Stop);
     signal (SIGTERM, Stop);
     signal (SIGHUP, Stop);
     signal (SIGQUIT, Stop);
+#endif
 
     printf("server start listen on: %s:%d\n", listen_ip, listen_port);
     init_http_conn();
