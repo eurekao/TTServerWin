@@ -24,7 +24,7 @@ public class SysConstants {
 	public static final long CHECK_STOP_GAP_TIME = 2000;
 	
 	//停止实例配置文件
-	public static final String ELEGANT_STOP_FILE = "/tmp/.mogutalk_stop";
+	public static final String ELEGANT_STOP_FILE = "mogutalk_stop";
 	
 	public static final String ELEGANT_SHUTDOWN_SHELL_SCRIPT = "mogutalkshutdown";
 	
