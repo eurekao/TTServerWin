@@ -1,4 +1,4 @@
-/*
+﻿/*
  * FileHandler.h
  *
  *  Created on: 2013-12-17

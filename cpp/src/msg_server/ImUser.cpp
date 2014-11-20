@@ -1,4 +1,4 @@
-﻿/*
+/*
  * ImUser.cpp
  *
  *  Created on: 2014年4月16日
@@ -99,6 +99,17 @@ void CImUser::BroadcastPdu(CImPdu* pPdu, CMsgConn* pFromConn)
 			pConn->SendPdu(pPdu);
 		}
 	}
+}
+
+void CImUser::BroadcastPduWithOutMobile(CImPdu *pPdu, CMsgConn* pFromConn)
+{
+    for (map<string, CMsgConn*>::iterator it = m_conn_map.begin(); it != m_conn_map.end(); it++)
+    {
+        CMsgConn* pConn = it->second;
+        if (pConn != pFromConn && CHECK_CLIENT_TYPE_PC(pConn->GetClientType())) {
+            pConn->SendPdu(pPdu);
+        }
+    }
 }
 
 void CImUser::BroadcastClientMsgData(CImPduClientMsgData* pPdu, CMsgConn* pFromConn, uint32_t from_id)

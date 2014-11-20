@@ -333,8 +333,7 @@ void CDBServConn::_HandleValidateResponse(CImPduValidateResponse* pPdu)
         CImPduLoginResponse pduLR(result);
         pduLR.SetReserved(pPdu->GetReserved());
         pMsgConn->SendPdu(&pduLR);
-
-        pMsgConn->Close();
+        //pMsgConn->Close();
 	}
 }
 
@@ -365,11 +364,6 @@ void CDBServConn::_HandleFriendListResponse(CImPduFriendListResponse* pPdu)
 	CImPduClientFriendList pduCFL(friend_cnt, friend_list);
 	pduCFL.SetReserved(pPdu->GetReserved());
 	pToConn->SendPdu(&pduCFL);
-
-	// 最近联系人不发送状态通知，但因为客户端的关系，需要通知离线状态
-	CImPduClientOnlineFriendList pduCOFL(ONLINE_LIST_TYPE_FRIEND_LIST, 0, NULL);
-	pduCOFL.SetReserved(pPdu->GetReserved());
-	pToConn->SendPdu(&pduCOFL);
 }
 
 void CDBServConn::_HandleUnreadMsgCountResponse(CImPduUnreadMsgCountResponse* pPdu)
@@ -408,9 +402,6 @@ void CDBServConn::_HandleMsgListResponse(CImPduMsgListResponse* pPdu)
 
 	if (pMsgConn && pMsgConn->IsOpen()) {
 		uint32_t client_cmd_id = CID_MSG_UNREAD_MSG_RESPONSE;
-		if (request_cmd_id == IM_PDU_TYPE_HISTORY_MSG_REQUEST) {
-			client_cmd_id = CID_MSG_HISTORY_MSG_RESPONSE;
-		}
 
 		CImPduClientMsgListResponse pdu(client_cmd_id, to_id_url.c_str(), msg_cnt, server_msg_list);
 		pdu.SetReserved(pPdu->GetReserved());

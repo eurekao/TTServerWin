@@ -1,0 +1,5 @@
+*.class
+Debug
+Release
+cpp/src/TTServerWin.sdf
+cpp/src/TTServerWin.v12.suo

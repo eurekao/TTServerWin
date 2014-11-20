@@ -46,11 +46,13 @@ typedef	unsigned long long	uint64_t;
 #endif
 typedef int				socklen_t;
 #else
-typedef int	SOCKET;
-typedef int BOOL;
+#ifdef linux
 const int TRUE = 1;
 const int FALSE = 0;
-const int SOCKET_ERROR = -1;
+#endif
+typedef int	SOCKET;
+typedef int BOOL;
+const int SOCKET_ERROR	= -1;
 const int INVALID_SOCKET = -1;
 #endif
 

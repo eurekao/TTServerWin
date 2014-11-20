@@ -207,7 +207,7 @@ FileManager::getOrCreateEntry(const std::string& url, bool create) {
 		m_cs.Leave();
 		return NULL;
 	}
-
+    	
 	Entry *e = new Entry();
 #ifndef WIN32
 	u64 fileSize = File::getFileSize(path.c_str());

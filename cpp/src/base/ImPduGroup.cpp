@@ -259,31 +259,6 @@ CImPduClientGroupUnreadMsgRequest::CImPduClientGroupUnreadMsgRequest(const char*
 	WriteHeader();
 }
 
-CImPduClientGroupHistoryMsgRequest::CImPduClientGroupHistoryMsgRequest(uchar_t* buf, uint32_t len)
-{
-	ReadPduHeader(buf, IM_PDU_HEADER_LEN, &m_pdu_header);
-	CByteStream is(buf + IM_PDU_HEADER_LEN, len - IM_PDU_HEADER_LEN);
-
-	m_group_id_url = is.ReadString(m_group_id_len);
-	is >> m_msg_offset;
-	is >> m_msg_count;
-	PARSE_PACKET_ASSERT
-}
-
-CImPduClientGroupHistoryMsgRequest::CImPduClientGroupHistoryMsgRequest(const char* group_id_url,
-		uint32_t msg_offset, uint32_t msg_count)
-{
-	m_pdu_header.module_id = SID_GROUP;
-	m_pdu_header.command_id = CID_GROUP_HISTORY_MSG_REQUEST;
-	CByteStream os(&m_buf, IM_PDU_HEADER_LEN);
-	m_buf.Write(NULL, IM_PDU_HEADER_LEN);
-
-	os.WriteString(group_id_url);
-	os << msg_offset;
-	os << msg_count;
-	WriteHeader();
-}
-
 CImPduClientGroupMsgListResponse::CImPduClientGroupMsgListResponse(uchar_t* buf, uint32_t len)
 {
 	m_msg_list = NULL;
@@ -298,6 +273,7 @@ CImPduClientGroupMsgListResponse::CImPduClientGroupMsgListResponse(uchar_t* buf,
 		for (uint32_t i = 0; i < m_msg_cnt; i++) {
 			m_msg_list[i].from_user_id_url = is.ReadString(m_msg_list[i].from_user_id_len);
 			is >> m_msg_list[i].create_time;
+            is >> m_msg_list[i].msg_type;
 			m_msg_list[i].msg_content = is.ReadData(m_msg_list[i].msg_len);
 		}
 	}
@@ -320,6 +296,7 @@ CImPduClientGroupMsgListResponse::CImPduClientGroupMsgListResponse(uint32_t cmd_
 		char* from_user_id_url = idtourl(msg_list[i].from_user_id);
 		os.WriteString(from_user_id_url);
 		os << msg_list[i].create_time;
+        os << msg_list[i].msg_type;
 		os.WriteData(msg_list[i].msg_content, msg_list[i].msg_len);
 	}
 
@@ -645,6 +622,7 @@ CImPduClientGroupChangeMemberNotify::~CImPduClientGroupChangeMemberNotify()
 }
 
 // for server use
+
 CImPduGroupListRequest::CImPduGroupListRequest(uint16_t cmd_id, uint32_t user_id, uint32_t attach_len, uchar_t* attach_data)
 {
 	m_pdu_header.command_id = cmd_id;
@@ -753,13 +731,14 @@ CImPduGroupUserListResponse::~CImPduGroupUserListResponse()
 }
 
 CImPduGroupUnreadMsgCntRequest::CImPduGroupUnreadMsgCntRequest(uint32_t req_user_id,
-		uint32_t attach_len, uchar_t* attach_data)
+        uint32_t client_type, uint32_t attach_len, uchar_t* attach_data)
 {
 	m_pdu_header.command_id = IM_PDU_TYPE_GROUP_UNREAD_MSG_CNT_REQUEST;
 	CByteStream os(&m_buf, IM_PDU_HEADER_LEN);
 	m_buf.Write(NULL, IM_PDU_HEADER_LEN);
 
 	os << req_user_id;
+    os << client_type;
 	os.WriteData(attach_data, attach_len);
 	WriteHeader();
 }
@@ -792,7 +771,7 @@ CImPduGroupUnreadMsgCntResponse::~CImPduGroupUnreadMsgCntResponse()
 }
 
 CImPduGroupUnreadMsgRequest::CImPduGroupUnreadMsgRequest(uint32_t req_user_id, uint32_t group_id,
-			uint32_t attach_len, uchar_t* attach_data)
+			uint32_t client_type, uint32_t attach_len, uchar_t* attach_data)
 {
 	m_pdu_header.command_id = IM_PDU_TYPE_GROUP_UNREAD_MSG_REQUEST;
 	CByteStream os(&m_buf, IM_PDU_HEADER_LEN);
@@ -800,21 +779,7 @@ CImPduGroupUnreadMsgRequest::CImPduGroupUnreadMsgRequest(uint32_t req_user_id, u
 
 	os << req_user_id;
 	os << group_id;
-	os.WriteData(attach_data, attach_len);
-	WriteHeader();
-}
-
-CImPduGroupHistoryMsgRequest::CImPduGroupHistoryMsgRequest(uint32_t req_user_id, uint32_t group_id,
-		uint32_t msg_offset, uint32_t msg_count, uint32_t attach_len, uchar_t* attach_data)
-{
-	m_pdu_header.command_id = IM_PDU_TYPE_GROUP_HISTORY_MSG_REQUEST;
-	CByteStream os(&m_buf, IM_PDU_HEADER_LEN);
-	m_buf.Write(NULL, IM_PDU_HEADER_LEN);
-
-	os << req_user_id;
-	os << group_id;
-	os << msg_offset;
-	os << msg_count;
+    os << client_type;
 	os.WriteData(attach_data, attach_len);
 	WriteHeader();
 }
@@ -835,6 +800,7 @@ CImPduGroupMsgListResponse::CImPduGroupMsgListResponse(uchar_t* buf, uint32_t le
 		for (uint32_t i = 0; i < m_msg_cnt; i++) {
 			is >> m_msg_list[i].from_user_id;
 			is >> m_msg_list[i].create_time;
+            is >> m_msg_list[i].msg_type;
 			m_msg_list[i].msg_content = is.ReadData(m_msg_list[i].msg_len);
 		}
 	}
@@ -849,7 +815,8 @@ CImPduGroupMsgListResponse::~CImPduGroupMsgListResponse()
 		delete [] m_msg_list;
 }
 
-CImPduGroupMsgReadAck::CImPduGroupMsgReadAck(uint32_t req_user_id, uint32_t group_id)
+CImPduGroupMsgReadAck::CImPduGroupMsgReadAck(uint32_t req_user_id, uint32_t group_id,
+                                             uint32_t client_type)
 {
 	m_pdu_header.command_id = IM_PDU_TYPE_GROUP_MSG_READ_ACK;
 	CByteStream os(&m_buf, IM_PDU_HEADER_LEN);
@@ -857,6 +824,7 @@ CImPduGroupMsgReadAck::CImPduGroupMsgReadAck(uint32_t req_user_id, uint32_t grou
 
 	os << req_user_id;
 	os << group_id;
+    os << client_type;
 	WriteHeader();
 }
 
@@ -1051,4 +1019,5 @@ CImPduGroupChangeMemberNotify::~CImPduGroupChangeMemberNotify()
         m_user_list = NULL;
     }
 }
+
 

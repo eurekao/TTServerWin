@@ -595,6 +595,7 @@ CImPduClientFilePullDataRsp::~CImPduClientFilePullDataRsp()
 
 
 // file pdu for server
+
 CImPduFileServerIPReq::CImPduFileServerIPReq(uchar_t* buf, uint32_t len)
 {
     ReadPduHeader(buf, IM_PDU_HEADER_LEN, &m_pdu_header);

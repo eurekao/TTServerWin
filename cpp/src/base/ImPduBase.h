@@ -34,8 +34,6 @@ enum {
     CID_LOGIN_RES_MSGSERVER         = 2,	//
     CID_LOGIN_REQ_USERLOGIN         = 3,	//
     CID_LOGIN_RES_USERLOGIN         = 4,	//
-    CID_LOGIN_REQ_LOGINOUT          = 5,	//
-    CID_LOGIN_RES_LOGINOUT          = 6, 	//
     CID_LOGIN_KICK_USER				= 7, 	//
 };
 
@@ -49,10 +47,8 @@ enum {
 	CID_MSG_UNREAD_CNT_REQUEST		= 7, 	//
 	CID_MSG_UNREAD_CNT_RESPONSE		= 8,	//
 	CID_MSG_UNREAD_MSG_REUQEST		= 9,	//
-	CID_MSG_HISTORY_MSG_REQUEST		= 10, 	//
 	//CID_MSG_LIST_RESPONSE			= 11,	//
 	CID_MSG_UNREAD_MSG_RESPONSE 	= 14,
-	CID_MSG_HISTORY_MSG_RESPONSE	= 15,
 };
 
 // command id for buddy list
@@ -87,8 +83,6 @@ enum {
 	CID_GROUP_UNREAD_CNT_RESPONSE	= 6,
 	CID_GROUP_UNREAD_MSG_REQUEST	= 7,
 	CID_GROUP_UNREAD_MSG_RESPONSE	= 8,
-	CID_GROUP_HISTORY_MSG_REQUEST	= 9,
-	CID_GROUP_HISTORY_MSG_RESPONSE	= 10,
 	CID_GROUP_MSG_READ_ACK			= 11,
 	CID_GROUP_CREATE_TMP_GROUP_REQUEST	= 12,
 	CID_GROUP_CREATE_TMP_GROUP_RESPONSE	= 13,
@@ -112,12 +106,6 @@ enum {
     CID_FILE_STATE                  = 3,
     CID_FILE_PULL_DATA_REQ          = 4,
     CID_FILE_PULL_DATA_RSP          = 5,
-CID_FILE_GET_OFFLINE_REQ                = 6,   
- 
-    /// yunfan add 2014.8.7
-    CID_FILE_MSG_NEW_TASK_REQ       = 20,
-    CID_FILE_MSG_NEW_TASK_RSP       = 21,
-    /// yunfan add end
 
 	// To MsgServer
 	CID_FILE_REQUEST 				= 10, // sender -> receiver
@@ -136,15 +124,6 @@ CID_FILE_GET_OFFLINE_REQ                = 6,
 #define MSG_TYPE_GROUP_FLAG     0x10
 
 #define CHECK_MSG_TYPE_GROUP(msg_type) ((msg_type & MSG_TYPE_GROUP_FLAG) == MSG_TYPE_GROUP_FLAG)
-//#define CHECK_MSG_TYPE_GROUP(msg_type) \
-//    ({\
-//        bool bRet = false;\
-//        if ((msg_type & MSG_TYPE_GROUP_FLAG) == MSG_TYPE_GROUP_FLAG)\
-//        {\
-//            bRet = true;\
-//        }\
-//        bRet;\
-//    })
 
 enum {
 	MSG_TYPE_P2P_TEXT       = MSG_TYPE_P2P_FLAG + 0x01,
@@ -167,26 +146,8 @@ enum {
 };
 
 #define CHECK_CLIENT_TYPE_PC(type) ((type & 0x10) == 0x00)
-//#define CHECK_CLIENT_TYPE_PC(type) \
-//    ({\
-//        bool bRet = false;\
-//        if ((type & 0x10) == 0x00)\
-//        {\
-//            bRet = true;\
-//        }\
-//        bRet;\
-//    })
 
 #define CHECK_CLIENT_TYPE_MOBILE(type) ((type & 0x10) == 0x10)
-//#define CHECK_CLIENT_TYPE_MOBILE(type) \
-//    ({\
-//        bool bRet = false;\
-//        if ((type & 0x10) == 0x10)\
-//        {\
-//            bRet = true;\
-//        }\
-//        bRet;\
-//    })
 
 
 
@@ -203,7 +164,6 @@ enum {
 		throw CPduException(m_pdu_header.module_id, m_pdu_header.command_id, ERROR_CODE_ALLOC_FAILED, "allocate failed"); \
 	}
 
-//Modify by Eureka for vs2013
 #ifndef WIN32
 	#ifdef BUILD_PDU
 	#define DLL_MODIFIER __declspec(dllexport)
